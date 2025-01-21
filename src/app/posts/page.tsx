@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import Input from '@/app/_components/Input';
 import Select from '@/app/_components/Select';
 import DatePicker from '@/app/_components/DatePicker';
+import Button from '@/app/_components/Button'; // Importa el componente Button
 import { Post } from '@/types/Post';
 import { getPosts } from '@/api/posts/getPosts';
+import TextRenderer from '../_components/TextRenderer';
 
 const Posts = () => {
     const defaultPosts: Post[] = [];
@@ -33,13 +35,7 @@ const Posts = () => {
         { label: 'Contenido', value: 'content' },
         { label: 'Estado', value: 'status' },
     ];
-    const paginationOptions = [
-        { label: '10', value: 10 },
-        { label: '20', value: 20 },
-        { label: '30', value: 30 },
-        { label: '50', value: 50 },
-        { label: '100', value: 100 },
-    ];
+    const paginationOptions = [10, 20, 30, 50, 100];
 
     useEffect(() => {
         let startdate = '1900-01-01';
@@ -122,30 +118,24 @@ const Posts = () => {
                         label="Fecha Inicio"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
+                        hiddenLabel
                     />
                     <DatePicker
                         id="endDate"
                         label="Fecha Fin"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
+                        hiddenLabel
                     />
+                    <Button label="Aplicar Filtros" onClick={handleFilterChange} />
                 </div>
-            </div>
-
-            <div className="flex justify-center mt-6">
-                <button
-                    onClick={handleFilterChange}
-                    className="bg-primary text-white px-6 py-2 rounded hover:bg-primary-dark"
-                >
-                    Aplicar Filtros
-                </button>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts.map((post, key) => (
                     <div key={key} className="bg-secondary-dark p-6 rounded-lg">
                         <h3 className="text-xl text-white mb-2">{post.title}</h3>
-                        <p className="text-neutral">{post.content || 'Sin descripción'}</p>
+                        <TextRenderer text={post.content || 'Sin descripción'} type="hidden" />
                         <a
                             href={`/posts/${post.id}`}
                             className="text-primary mt-4 inline-block hover:text-primary-dark"
@@ -169,23 +159,19 @@ const Posts = () => {
                     </div>
 
                     <div className="flex justify-between items-center space-x-4">
-                        <button
+                        <Button
+                            label="Anterior"
                             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                            className="p-2 bg-primary text-white rounded hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
                             disabled={page <= 1}
-                        >
-                            Anterior
-                        </button>
+                        />
                         <span className="text-neutral">
                             Página {page} de {totalPages}
                         </span>
-                        <button
+                        <Button
+                            label="Siguiente"
                             onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-                            className="p-2 bg-primary text-white rounded hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
                             disabled={page >= totalPages}
-                        >
-                            Siguiente
-                        </button>
+                        />
                     </div>
                 </div>
             </div>

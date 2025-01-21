@@ -38,6 +38,10 @@ export const getPosts = async (
     const url = `/posts/all?${params.toString()}`;
 
     const res: PostsResult = await http.get(url);
+    res.posts = res.posts.map((p) => {
+        p.content = p.content.replaceAll('\\n', '\n');
+        return p;
+    });
 
     return res;
 };

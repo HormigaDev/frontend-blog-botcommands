@@ -11,9 +11,10 @@ type DatePickerProps = {
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     dateFormat?: string;
+    hiddenLabel?: boolean;
 };
 
-const DatePicker = ({ id, label, value, onChange, dateFormat = 'dd/MM/yyyy' }: DatePickerProps) => {
+const DatePicker = ({ id, label, value, onChange, dateFormat = 'dd/MM/yyyy', hiddenLabel = false }: DatePickerProps) => {
     const [selectedDate, setSelectedDate] = useState(
         value ? parse(value, 'yyyy-MM-dd', new Date()) : null,
     );
@@ -30,13 +31,14 @@ const DatePicker = ({ id, label, value, onChange, dateFormat = 'dd/MM/yyyy' }: D
 
     return (
         <div className="relative">
-            <label htmlFor={id} className="block text-neutral mb-2">
+            {!hiddenLabel && <label htmlFor={id} className="block text-neutral mb-2">
                 {label}
-            </label>
+            </label>}
             <div
                 className={makeStyles([
                     'relative w-full p-3 pr-10 bg-secondary-dark text-white border border-neutral rounded',
                     'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
+                    'h-[50px]'
                 ])}
             >
                 <DatePickerLib

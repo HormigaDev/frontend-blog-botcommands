@@ -1,3 +1,5 @@
+import { makeStyles } from '@/utils/makeStyles';
+
 // Input estilizado con TailwindCSS
 type InputProps = {
     type: 'text' | 'password' | 'email' | 'number' | 'textarea';
@@ -32,7 +34,12 @@ const Input = ({
                     value={value}
                     onChange={onChange}
                     rows={rows || 4}
-                    className="w-full p-3 bg-secondary-dark text-white border border-neutral rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    className={makeStyles([
+                        'w-full p-3 bg-secondary-dark text-white border',
+                        'border-neutral rounded focus:outline-none',
+                        'focus:ring-2 focus:ring-primary focus:border-transparent',
+                        'h-[50px]',
+                    ])}
                 />
             </div>
         );
@@ -51,7 +58,11 @@ const Input = ({
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange}
-                className="w-full p-3 bg-secondary-dark text-white border border-neutral rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                className={makeStyles([
+                    'w-full p-3 bg-secondary-dark text-white border border-neutral rounded',
+                    'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
+                    'h-[50px]',
+                ])}
             />
         </div>
     );
