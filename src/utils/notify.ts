@@ -13,21 +13,25 @@ export const notify = (data: NotifyData = {}) => {
         case 'error':
             toast.error(data.message, {
                 style: toastStyles.error,
+                autoClose: 3000,
             });
             break;
         case 'info':
             toast.info(data.message, {
                 style: toastStyles.info,
+                autoClose: 3000,
             });
             break;
         case 'success':
             toast.success(data.message, {
                 style: toastStyles.success,
+                autoClose: 3000,
             });
             break;
         case 'warning':
             toast.warning(data.message, {
                 style: toastStyles.warning,
+                autoClose: 3000,
             });
     }
 };

@@ -1,0 +1,15 @@
+{
+  "name": "wasmd-html",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "wasmd_html_bg.wasm",
+    "wasmd_html.js",
+    "wasmd_html.d.ts"
+  ],
+  "main": "wasmd_html.js",
+  "types": "wasmd_html.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

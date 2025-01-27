@@ -1,49 +1,57 @@
+'use client';
+
+import Link from 'next/link';
+
 const Footer = () => {
     return (
-        <footer className="bg-secondary-dark text-neutral-dark py-8 mt-4">
-            <div className="max-w-6xl mx-auto px-6 flex flex-col items-center md:flex-row justify-between">
-                {/* Información del footer */}
+        <footer className="bg-secondary-dark text-neutral-dark py-8 mt-4 block">
+            <div className="max-w-6xl mx-auto flex flex-col items-center md:flex-row justify-between">
                 <div className="text-center md:text-left">
                     <h3 className="text-xl font-semibold text-white mb-2">HormigaDev</h3>
                     <p className="text-neutral mb-4">Ejemplos de comandos de bots de Discord</p>
                     <div className="flex justify-center md:justify-start space-x-6 mb-4">
-                        {/* Enlaces de redes sociales */}
-                        <a
-                            href="https://discord.gg/tu-enlace"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-white hover:text-primary transition-colors"
-                        >
-                            Discord
-                        </a>
-                        <a
-                            href="https://youtube.com/tu-canal"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-white hover:text-primary transition-colors"
-                        >
-                            YouTube
-                        </a>
+                        <p>
+                            ¿Tienes dudas o buscas más contenido? Visita nuestro&nbsp;&nbsp;
+                            <a
+                                href="https://youtube.com/tu-canal"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white hover:text-primary transition-colors underline"
+                            >
+                                <i className="fa fa-brands fa-youtube mr-1" />
+                                Canal YouTube
+                            </a>
+                            . &nbsp; Si prefieres ayuda directa o tienes ideas para mejorar, únete a
+                            nuestra&nbsp;&nbsp;
+                            <a
+                                href="https://discord.gg/Rx5Db2WBF3"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-white hover:text-primary transition-colors underline"
+                            >
+                                <i className="fa fa-brands fa-discord mr-1" />
+                                Comunidad de Discord
+                            </a>
+                            . ¡Nos encantaría conocerte!
+                        </p>
                     </div>
                     <div className="flex justify-center md:justify-start space-x-6">
-                        {/* Enlaces adicionales */}
-                        <a
+                        <Link
                             href="/privacy-policy"
-                            className="text-neutral hover:text-white transition-colors"
+                            className="text-neutral underline transition-colors hover:text-primary"
                         >
                             Política de privacidad
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                             href="/terms-of-service"
-                            className="text-neutral hover:text-white transition-colors"
+                            className="text-neutral underline transition-colors hover:text-primary"
                         >
                             Términos de servicio
-                        </a>
+                        </Link>
                     </div>
                 </div>
 
-                {/* Copyright */}
-                <div className="mt-8 md:mt-0 text-center text-sm text-neutral">
+                <div className="mt-8 md:mt-0 text-center text-sm text-neutral pl-12">
                     <p>
                         &copy; {new Date().getFullYear()} HormigaDev. Todos los derechos reservados.
                     </p>
