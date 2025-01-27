@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/ReactToastify.css';
 import { Geist, Geist_Mono } from 'next/font/google';
@@ -8,10 +8,12 @@ import { usePathname } from 'next/navigation';
 import useStore from '@/store';
 import { Metadata } from 'next';
 import { makeStyles } from '@/utils/makeStyles';
+import _metadata from './metadata.json';
 
 // Components
 import Navbar from './_components/Navbar';
 import Footer from './_components/Footer';
+import CookieConset from './_components/CookieConsent';
 
 const host = 'http://localhost:4000'; //TODO: Cambiar a la URL real en producción
 const geistSans = Geist({
@@ -33,54 +35,19 @@ const getMetadata = (pathname: string, defaultMetadata: Metadata) => {
 
     switch (pathname) {
         case '/':
-            metadata = {
-                title: 'Inicio',
-                description:
-                    'Descubre las últimas novedades y ejemplos de comandos de bots en HormigaDev. Aprende a mejorar tus bots de Discord con nuestras guías y recursos.',
-                keywords: [
-                    'discord bots',
-                    'ejemplos de comandos',
-                    'guías de programación',
-                    'bots en Discord',
-                ],
-            };
+            metadata = _metadata.inicio;
             break;
 
         case '/posts':
-            metadata = {
-                title: 'Publicaciones',
-                description:
-                    'Explora nuestras publicaciones repletas de ejemplos de comandos para bots de Discord. Mejora tus habilidades de programación hoy mismo.',
-                keywords: [
-                    'publicaciones de discord',
-                    'comandos de bots',
-                    'desarrollo de bots',
-                    'programación avanzada',
-                ],
-            };
+            metadata = _metadata.posts;
             break;
 
         case '/about':
-            metadata = {
-                title: 'Sobre nosotros',
-                description:
-                    'Conoce más sobre HormigaDev, un blog dedicado a ejemplos, tutoriales y recursos para el desarrollo de bots en Discord.',
-                keywords: ['sobre HormigaDev', 'desarrollo de bots', 'comunidad de programadores'],
-            };
+            metadata = _metadata.about;
             break;
 
         default:
-            metadata = {
-                title: 'Blog de programación',
-                description:
-                    'Bienvenido a HormigaDev, tu blog de referencia para ejemplos y tutoriales de comandos de bots en Discord.',
-                keywords: [
-                    'blog de programación',
-                    'discord bots',
-                    'tutoriales de comandos',
-                    'recursos de desarrollo',
-                ],
-            };
+            metadata = _metadata.default;
             break;
     }
 
@@ -96,9 +63,15 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const [is404, setIs404] = useState(false);
     const { metadata } = useStore();
     const pathname = usePathname();
     const { title, description, keywords } = getMetadata(pathname, metadata);
+    useEffect(() => {
+        if (keywords.includes('404')) {
+            setIs404(true);
+        }
+    }, [setIs404, keywords]);
 
     return (
         <html lang="en">
@@ -141,27 +114,29 @@ export default function RootLayout({
                         'max-h-screen',
                     ])}
                 >
-                    {/* Navbar */}
                     <header className="col-span-full row-start-1 text-white">
                         <Navbar />
                     </header>
 
-                    {/* Main content */}
                     <main
                         className={makeStyles([
                             'row-start-2 col-start-1',
-                            'col-span-2 p-4 overflow',
+                            is404 ? 'col-span-3' : 'col-span-2',
+                            'p-4 overflow',
+                            'dark',
                         ])}
                     >
-                        {children} <Footer />
+                        {children}
+                        <Footer />
                     </main>
 
-                    {/* Aside */}
-                    <aside className="hidden lg:block row-start-2 col-start-3 bg-secondary-dark p-4">
-                        <p>Contenido adicional o enlaces útiles</p>
-                    </aside>
+                    {!is404 && (
+                        <aside className="hidden lg:block row-start-2 col-start-3 bg-secondary-dark p-4">
+                            <p>Aquí van los anuncios de GoogleAdsense</p>
+                        </aside>
+                    )}
                 </div>
-
+                <CookieConset />
                 <ToastContainer position="top-right" autoClose={1500} hideProgressBar={true} />
             </body>
         </html>

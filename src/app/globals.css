@@ -94,3 +94,13 @@ body {
 input {
     outline: none !important;
 }
+
+code::before,
+code::after {
+    display: none;
+}
+
+span.token.operator {
+    background-color: transparent !important;
+    background: transparent !important;
+}

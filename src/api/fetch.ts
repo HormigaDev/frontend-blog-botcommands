@@ -1,4 +1,5 @@
 import { HttpException } from '@/types/HttpException';
+import { notify } from '@/utils/notify';
 
 const host = 'http://localhost:3000';
 
@@ -40,7 +41,7 @@ export class Http {
             },
         );
 
-        this.handleResponse(res);
+        await this.handleResponse(res);
 
         return await res.json();
     }
@@ -56,18 +57,19 @@ export class Http {
             body,
         });
 
-        this.handleResponse(res);
+        await this.handleResponse(res);
 
         return await res.json();
     }
 
-    private handleResponse(response: Response) {
+    private async handleResponse(response: Response) {
         const errorStatus = [400, 401, 403, 409, 404, 500, 501];
         if (!response.ok) {
+            const json = await response.json();
             if (!errorStatus.includes(response.status)) {
-                throw new Error('Unknown error:' + response.statusText);
+                throw new Error('Unknown error:' + json.message);
             } else {
-                throw new HttpException(JSON.stringify(response));
+                throw new HttpException(json.message);
             }
         }
     }
@@ -86,6 +88,15 @@ export class Http {
 
     async delete(endpoint: string, options: Record<string, unknown>) {
         return await this.gd(endpoint, options, 'DELETE');
+    }
+
+    handleError(error: unknown) {
+        if (error instanceof HttpException) {
+            notify({ message: error.message, type: 'error' });
+        } else {
+            notify({ message: 'Ocurrió un error inesperado', type: 'error' });
+            console.log(error);
+        }
     }
 }
 

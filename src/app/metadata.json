@@ -1,0 +1,37 @@
+{
+    "inicio": {
+        "title": "Inicio",
+        "description": "Descubre las últimas novedades y ejemplos de comandos de bots en HormigaDev. Aprende a mejorar tus bots de Discord con nuestras guías y recursos.",
+        "keywords": [
+            "discord bots",
+            "ejemplos de comandos",
+            "guías de programación",
+            "bots en Discord"
+        ]
+    },
+    "posts": {
+        "title": "Publicaciones",
+        "description": "Explora nuestras publicaciones repletas de ejemplos de comandos para bots de Discord. Mejora tus habilidades de programación hoy mismo.",
+        "keywords": [
+            "publicaciones de discord",
+            "comandos de bots",
+            "desarrollo de bots",
+            "programación avanzada"
+        ]
+    },
+    "about": {
+        "title": "Sobre nosotros",
+        "description": "Conoce más sobre HormigaDev, un blog dedicado a ejemplos, tutoriales y recursos para el desarrollo de bots en Discord.",
+        "keywords": ["sobre HormigaDev", "desarrollo de bots", "comunidad de programadores"]
+    },
+    "default": {
+        "title": "Blog de programación",
+        "description": "Bienvenido a HormigaDev, tu blog de referencia para ejemplos y tutoriales de comandos de bots en Discord.",
+        "keywords": [
+            "blog de programación",
+            "discord bots",
+            "tutoriales de comandos",
+            "recursos de desarrollo"
+        ]
+    }
+}
