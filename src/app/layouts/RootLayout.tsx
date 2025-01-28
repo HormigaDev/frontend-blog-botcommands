@@ -3,19 +3,23 @@ import React, { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/ReactToastify.css';
 import { Geist, Geist_Mono } from 'next/font/google';
-import './globals.css';
+import '../globals.css';
 import { usePathname } from 'next/navigation';
-import useStore from '@/store';
+import useMetadata from '@/stores/metadata.store';
 import { Metadata } from 'next';
 import { makeStyles } from '@/utils/makeStyles';
-import _metadata from './metadata.json';
+import _metadata from '@/app/data/metadata.json';
+import navOptions from '@/app/data/navbar-options.json';
+import Dialog from '../_components/Dialog';
+import PostModal from '../_components/PostModal';
 
 // Components
-import Navbar from './_components/Navbar';
-import Footer from './_components/Footer';
-import CookieConset from './_components/CookieConsent';
+import Navbar from '@/app/_components/Navbar';
+import Footer from '@/app/_components/Footer';
+import CookieConset from '@/app/_components/CookieConsent';
+import { isAuthenticated } from '@/api/users/isAuthenticated';
 
-const host = 'http://localhost:4000'; //TODO: Cambiar a la URL real en producción
+const host = process.env.NEXT_PUBLIC_HOST_URL;
 const geistSans = Geist({
     variable: '--font-geist-sans',
     subsets: ['latin'],
@@ -64,13 +68,19 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     const [is404, setIs404] = useState(false);
-    const { metadata } = useStore();
+    const [isAdmin, setIsAdmin] = useState(false);
+    const { metadata } = useMetadata();
     const pathname = usePathname();
     const { title, description, keywords } = getMetadata(pathname, metadata);
     useEffect(() => {
         if (keywords.includes('404')) {
             setIs404(true);
         }
+        isAuthenticated().then((authenticated) => {
+            if (authenticated) {
+                setIsAdmin(true);
+            }
+        });
     }, [setIs404, keywords]);
 
     return (
@@ -84,7 +94,7 @@ export default function RootLayout({
                 <meta property="og:title" content={'HormigaDev - ' + title} />
                 <meta property="og:description" content={description} />
                 <meta property="og:image" content={`${host}/logo.png`} />
-                <meta property="og:url" content="https://blog.hormiga.dev" />
+                <meta property="og:url" content={`${host}`} />
                 <meta property="og:type" content="website" />
 
                 <meta name="twitter:card" content="summary_large_image" />
@@ -115,13 +125,13 @@ export default function RootLayout({
                     ])}
                 >
                     <header className="col-span-full row-start-1 text-white">
-                        <Navbar />
+                        <Navbar options={navOptions.mainNavbar} />
                     </header>
 
                     <main
                         className={makeStyles([
                             'row-start-2 col-start-1',
-                            is404 ? 'col-span-3' : 'col-span-2',
+                            is404 || isAdmin ? 'col-span-3' : 'col-span-2',
                             'p-4 overflow',
                             'dark',
                         ])}
@@ -130,12 +140,14 @@ export default function RootLayout({
                         <Footer />
                     </main>
 
-                    {!is404 && (
+                    {!is404 && !isAdmin && (
                         <aside className="hidden lg:block row-start-2 col-start-3 bg-secondary-dark p-4">
                             <p>Aquí van los anuncios de GoogleAdsense</p>
                         </aside>
                     )}
                 </div>
+                <PostModal />
+                <Dialog />
                 <CookieConset />
                 <ToastContainer position="top-right" autoClose={1500} hideProgressBar={true} />
             </body>

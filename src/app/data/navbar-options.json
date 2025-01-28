@@ -1,0 +1,26 @@
+{
+    "mainNavbar": [
+        {
+            "route": "/",
+            "name": "Inicio"
+        },
+        {
+            "route": "/posts",
+            "name": "Publicaciones"
+        },
+        {
+            "route": "/about",
+            "name": "Acerca de"
+        }
+    ],
+    "dashboard": [
+        {
+            "route": "/",
+            "name": "Inicio"
+        },
+        {
+            "route": "/posts",
+            "name": "Publicaciones"
+        }
+    ]
+}

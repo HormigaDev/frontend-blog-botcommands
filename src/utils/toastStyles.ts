@@ -2,26 +2,26 @@
 
 export const toastStyles = {
     success: {
-        backgroundColor: '#90FF90',
-        color: '#ffffff',
+        backgroundColor: '#2F3136',
+        color: '#00ff00',
         fontSize: '16px',
         borderRadius: '4px',
     },
     error: {
-        backgroundColor: '#FF9090',
-        color: '#ffffff',
+        backgroundColor: '#2F3136',
+        color: '#FF5050',
         fontSize: '16px',
         borderRadius: '4px',
     },
     info: {
-        backgroundColor: '#50AAAA',
-        color: '#ffffff',
+        backgroundColor: '#2F3136',
+        color: '#5050FF',
         fontSize: '16px',
         borderRadius: '4px',
     },
     warning: {
-        backgroundColor: '#C79500',
-        color: '#ffffff',
+        backgroundColor: '#2F3136',
+        color: '#FF9010',
         fontSize: '16px',
         borderRadius: '4px',
     },

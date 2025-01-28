@@ -9,23 +9,29 @@ type InputProps = {
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     rows?: number;
     hiddenLabel?: boolean;
+    label?: string;
+    maxlength?: number;
+    className?: string;
 };
 
 const Input = ({
     type,
     id,
     placeholder,
+    label = '',
     value,
     onChange,
     rows,
     hiddenLabel = false,
+    maxlength = 10000,
+    className = '',
 }: InputProps) => {
     if (type === 'textarea') {
         return (
             <div>
                 {!hiddenLabel && (
                     <label htmlFor={id} className="block text-neutral mb-2">
-                        {placeholder}
+                        {label || placeholder}
                     </label>
                 )}
                 <textarea
@@ -34,11 +40,13 @@ const Input = ({
                     value={value}
                     onChange={onChange}
                     rows={rows || 4}
+                    maxLength={maxlength}
                     className={makeStyles([
                         'w-full p-3 bg-secondary-dark text-white border',
                         'border-neutral rounded focus:outline-none',
                         'focus:ring-2 focus:ring-primary focus:border-transparent',
                         'h-[50px]',
+                        className,
                     ])}
                 />
             </div>
@@ -49,7 +57,7 @@ const Input = ({
         <div>
             {!hiddenLabel && (
                 <label htmlFor={id} className="block text-neutral mb-2">
-                    {placeholder}
+                    {label || placeholder}
                 </label>
             )}
             <input
@@ -57,12 +65,18 @@ const Input = ({
                 type={type}
                 placeholder={placeholder}
                 value={value}
+                max={maxlength}
+                maxLength={maxlength}
                 onChange={onChange}
                 className={makeStyles([
                     'w-full p-3 bg-secondary-dark text-white border border-neutral rounded',
                     'focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent',
                     'h-[50px]',
+                    className,
                 ])}
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck="false"
             />
         </div>
     );

@@ -38,28 +38,44 @@ export class Http {
             `${this.host}${endpoint}${options ? '?' + params.toString() : ''}`,
             {
                 method,
+                credentials: 'include',
             },
         );
 
         await this.handleResponse(res);
 
-        return await res.json();
+        if (res.status === 204) {
+            return { status: 204 };
+        } else {
+            const json = await res.json();
+            json.status = res.status;
+            return json;
+        }
     }
 
     private async pp(endpoint: string, data: unknown | FormData, method: 'POST' | 'PUT' = 'POST') {
         const body = data instanceof FormData ? data : JSON.stringify(data);
-
-        const res = await fetch(this.host + endpoint, {
+        const options: RequestInit = {
             method,
-            headers: {
-                'Content-Type': 'application/json',
-            },
             body,
-        });
+            credentials: 'include',
+        };
+        if (!(body instanceof FormData)) {
+            options.headers = {
+                'Content-Type': 'application/json',
+            };
+        }
+        const res = await fetch(this.host + endpoint, options);
 
         await this.handleResponse(res);
 
-        return await res.json();
+        if (res.status === 204) {
+            return { status: 204 };
+        } else {
+            const json = await res.json();
+            json.status = res.status;
+            return json;
+        }
     }
 
     private async handleResponse(response: Response) {
@@ -69,7 +85,7 @@ export class Http {
             if (!errorStatus.includes(response.status)) {
                 throw new Error('Unknown error:' + json.message);
             } else {
-                throw new HttpException(json.message);
+                throw new HttpException(json.message, response.status);
             }
         }
     }
@@ -79,14 +95,14 @@ export class Http {
     }
 
     async post(endpoint: string, body: unknown | FormData = {}) {
-        return await this.pp(endpoint, body);
+        return await this.pp(endpoint, body, 'POST');
     }
 
-    async put(endpoint: string, body: Record<string, unknown>) {
+    async put(endpoint: string, body: Record<string, unknown> | FormData) {
         return await this.pp(endpoint, body, 'PUT');
     }
 
-    async delete(endpoint: string, options: Record<string, unknown>) {
+    async delete(endpoint: string, options?: Record<string, unknown>) {
         return await this.gd(endpoint, options, 'DELETE');
     }
 

@@ -2,12 +2,13 @@ import { makeStyles } from '@/utils/makeStyles';
 
 type ButtonProps = {
     label: string;
-    onClick: () => void;
+    onClick: (e?: any) => void;
     color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'neutral';
     size?: 'small' | 'medium' | 'large';
     rounded?: boolean;
     disabled?: boolean;
     className?: string;
+    icon?: string;
 };
 
 const Button = ({
@@ -18,6 +19,7 @@ const Button = ({
     rounded = false,
     disabled = false,
     className = '',
+    icon = '',
 }: ButtonProps) => {
     const baseStyles = 'text-white font-semibold transition-colors duration-200 focus:outline-none';
     const sizeStyles = {
@@ -49,6 +51,7 @@ const Button = ({
                 className,
             ])}
         >
+            {icon && <i className={`${icon} mr-2`}></i>}
             {label}
         </button>
     );
