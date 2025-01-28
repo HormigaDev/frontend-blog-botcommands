@@ -13,13 +13,13 @@ const Footer = () => {
                         <p>
                             ¿Tienes dudas o buscas más contenido? Visita nuestro&nbsp;&nbsp;
                             <a
-                                href="https://youtube.com/tu-canal"
+                                href="https://www.youtube.com/@HormigaDev"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-white hover:text-primary transition-colors underline"
                             >
                                 <i className="fa fa-brands fa-youtube mr-1" />
-                                Canal YouTube
+                                Canal de YouTube
                             </a>
                             . &nbsp; Si prefieres ayuda directa o tienes ideas para mejorar, únete a
                             nuestra&nbsp;&nbsp;

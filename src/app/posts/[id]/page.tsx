@@ -1,15 +1,16 @@
 'use client';
 import { getPost } from '@/api/posts/getPost';
 import { registerPostView } from '@/api/posts/registerPostView';
-import useStore from '@/store';
+import useMetadata from '@/stores/metadata.store';
 import { parseMarkdownToHtml } from '@/utils/parseMarkdown';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
+import RootLayout from '@/app/layouts/RootLayout';
 
 const Post = () => {
     const [postContent, setPostContent] = useState('');
     const [loading, setLoading] = useState(true);
-    const { setMetadata } = useStore();
+    const { setMetadata } = useMetadata();
 
     const { id } = useParams();
     const router = useRouter();
@@ -37,19 +38,23 @@ const Post = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center w-full min-h-[400px] mt-8">
-                <i className="fa fa-spinner fa-spin fa-3x"></i>
-            </div>
+            <RootLayout>
+                <div className="flex justify-center items-center w-full min-h-[400px] mt-8">
+                    <i className="fa fa-spinner fa-spin fa-3x"></i>
+                </div>
+            </RootLayout>
         );
     }
 
     return (
-        <div className="w-full p-4 bg-dark">
-            <div
-                style={{ whiteSpace: 'pre-line' }}
-                dangerouslySetInnerHTML={{ __html: postContent }}
-            ></div>
-        </div>
+        <RootLayout>
+            <div className="w-full p-4 bg-dark">
+                <div
+                    style={{ whiteSpace: 'pre-line' }}
+                    dangerouslySetInnerHTML={{ __html: postContent }}
+                ></div>
+            </div>
+        </RootLayout>
     );
 };
 

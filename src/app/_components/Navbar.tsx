@@ -4,27 +4,15 @@ import Link from 'next/link';
 import { makeStyles } from '@/utils/makeStyles';
 import Image from 'next/image';
 
-const Navbar = () => {
-    const paths = [
-        {
-            route: '/',
-            name: 'Inicio',
-        },
-        {
-            route: '/posts',
-            name: 'Publicaciones',
-        },
-        {
-            route: '/about',
-            name: 'Acerca de',
-        },
-    ];
+interface NavbarProps {
+    options: { route: string; name: string }[];
+}
 
+const Navbar = ({ options }: NavbarProps) => {
     return (
         <nav className="bg-primary text-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
-                    {/* Logo */}
                     <div className="flex items-center space-x-2">
                         <Link href="/" className="flex items-center space-x-2">
                             <Image alt="logo" src={'/logo.png'} width={50} height={50} />
@@ -39,18 +27,16 @@ const Navbar = () => {
                         </Link>
                     </div>
 
-                    {/* Desktop Menu */}
                     <div className="hidden md:flex space-x-8">
-                        {paths.map((path, i) => (
-                            <Link href={path.route} key={'path-desktop-' + i}>
+                        {options.map((option, i) => (
+                            <Link href={option.route} key={'option-desktop-' + i}>
                                 <span className="hover:text-secondary transition-colors duration-200">
-                                    {path.name}
+                                    {option.name}
                                 </span>
                             </Link>
                         ))}
                     </div>
 
-                    {/* Mobile Menu Button */}
                     <div className="md:hidden">
                         <button
                             type="button"
@@ -90,11 +76,10 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Mobile Menu */}
             <div className="hidden md:hidden" id="mobile-menu">
                 <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    {paths.map((path, i) => (
-                        <Link href={path.route} key={'path-mobile-' + i}>
+                    {options.map((option, i) => (
+                        <Link href={option.route} key={'option-mobile-' + i}>
                             <span
                                 className={makeStyles([
                                     'block px-3 py-2 rounded-md',
@@ -103,7 +88,7 @@ const Navbar = () => {
                                     'transition-colors duration-200',
                                 ])}
                             >
-                                {path.name}
+                                {option.name}
                             </span>
                         </Link>
                     ))}
