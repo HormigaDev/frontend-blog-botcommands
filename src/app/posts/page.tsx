@@ -14,24 +14,15 @@ import { SearchPostsPreferences } from '@/types/SearchPostsPreferences';
 import { preferences as p } from '@/utils/preferences';
 
 const Posts = () => {
-    const preferences: SearchPostsPreferences = p.get('searchPostsPreferences') || {
-        orderBy: 'createdAt',
-        order: 'DESC',
-        startDate: '',
-        endDate: '',
-        query: '',
-        limit: 10,
-        page: 1,
-    };
     const [count, setCount] = useState(0);
     const [posts, setPosts] = useState<Post[]>([]);
-    const [orderBy, setOrderBy] = useState(preferences.orderBy || 'createdAt');
-    const [order, setOrder] = useState(preferences.order || 'DESC');
-    const [startDate, setStartDate] = useState(preferences.startDate || '');
-    const [endDate, setEndDate] = useState(preferences.endDate || '');
-    const [query, setQuery] = useState(preferences.query || '');
-    const [limit, setLimit] = useState(preferences.limit || 10);
-    const [page, setPage] = useState(preferences.page || 1);
+    const [orderBy, setOrderBy] = useState('createdAt');
+    const [order, setOrder] = useState('DESC');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [query, setQuery] = useState('');
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
     const [isAdmin, setIsAdmin] = useState(false);
     const { setPost } = usePostStore();
 
@@ -65,6 +56,23 @@ const Posts = () => {
     }
 
     useEffect(() => {
+        const preferences: SearchPostsPreferences = p.get('searchPostsPreferences') || {
+            orderBy: 'createdAt',
+            order: 'DESC',
+            startDate: '',
+            endDate: '',
+            query: '',
+            limit: 10,
+            page: 1,
+        };
+        setOrderBy(preferences.orderBy);
+        setOrder(preferences.order);
+        setStartDate(preferences.startDate);
+        setEndDate(preferences.endDate);
+        setQuery(preferences.query);
+        setLimit(preferences.limit);
+        setPage(preferences.page);
+
         searchPosts();
         isAuthenticated().then((authenticated) => {
             if (authenticated) {
