@@ -67,8 +67,6 @@ const Posts = () => {
         };
         setOrderBy(preferences.orderBy);
         setOrder(preferences.order);
-        setStartDate(preferences.startDate);
-        setEndDate(preferences.endDate);
         setQuery(preferences.query);
         setLimit(preferences.limit);
         setPage(preferences.page);
@@ -88,8 +86,6 @@ const Posts = () => {
         const searchPreferences: SearchPostsPreferences = {
             orderBy,
             order,
-            startDate,
-            endDate,
             query,
             limit,
             page,
@@ -104,11 +100,9 @@ const Posts = () => {
                 setOrder(value as 'DESC' | 'ASC');
                 break;
             case 'startDate':
-                searchPreferences[filter] = value as string;
                 setStartDate(value as string);
                 break;
             case 'endDate':
-                searchPreferences[filter] = value as string;
                 setEndDate(value as string);
                 break;
             case 'query':
