@@ -80,7 +80,7 @@ export default function RootLayout({
                 <Navbar options={navOptions.mainNavbar} />
             </header>
 
-            <main
+            <div
                 className={makeStyles([
                     'row-start-2 col-start-1',
                     is404 || isAdmin ? 'col-span-3' : 'col-span-2',
@@ -88,9 +88,9 @@ export default function RootLayout({
                     'dark',
                 ])}
             >
-                {children}
+                <main>{children}</main>
                 <Footer />
-            </main>
+            </div>
 
             {!is404 && !isAdmin && (
                 <aside className="hidden lg:block row-start-2 col-start-3 bg-secondary-dark p-4">

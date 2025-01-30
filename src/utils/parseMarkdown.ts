@@ -16,15 +16,17 @@ const replaceAsterisks = (text: string) => {
     text = text.replace(
         /\*\*\*\s?(.*?)\s?\*\*\*/g,
         (match, content) =>
-            `<b id="${generateId(
+            `<strong id="${generateId(
                 content,
-            )}" class="font-bold italic text-foreground">${content}</b>`,
+            )}" class="font-bold italic text-foreground">${content}</strong>`,
     );
 
     text = text.replace(
         /\*\*\s?(.*?)\s?\*\*\*/g,
         (match, content) =>
-            `<b id="${generateId(content)}" class="font-bold text-foreground">${content}</b>`,
+            `<strong id="${generateId(
+                content,
+            )}" class="font-bold text-foreground">${content}</strong>`,
     );
 
     text = text.replace(
