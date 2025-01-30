@@ -17,7 +17,7 @@ const Posts = () => {
     const [count, setCount] = useState(0);
     const [posts, setPosts] = useState<Post[]>([]);
     const [orderBy, setOrderBy] = useState('createdAt');
-    const [order, setOrder] = useState('DESC');
+    const [order, setOrder] = useState<'ASC' | 'DESC'>('DESC');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [query, setQuery] = useState('');
