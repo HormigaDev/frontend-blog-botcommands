@@ -9,6 +9,7 @@ import { Metadata } from 'next';
 import _metadata from '@/app/data/metadata.json';
 import Dialog from './_components/Dialog';
 import PostModal from './_components/PostModal';
+import _keywords from './data/keywords.json';
 
 import CookieConset from '@/app/_components/CookieConsent';
 
@@ -70,7 +71,7 @@ export default function RootLayout({
                 <title>{'HormigaDev - ' + title}</title>
                 <meta name="description" content={description} />
                 <meta name="robots" content="index, follow" />
-                <meta name="keywords" content={keywords.join(', ')} />
+                <meta name="keywords" content={[...keywords, ..._keywords].join(', ')} />
 
                 <meta property="og:title" content={'HormigaDev - ' + title} />
                 <meta property="og:description" content={description} />

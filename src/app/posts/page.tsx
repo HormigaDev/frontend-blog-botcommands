@@ -10,18 +10,28 @@ import PostCard from '../_components/PostCard';
 import RootLayout from '../layouts/RootLayout';
 import usePostStore from '@/stores/post.store';
 import { isAuthenticated } from '@/api/users/isAuthenticated';
+import { SearchPostsPreferences } from '@/types/SearchPostsPreferences';
+import { preferences as p } from '@/utils/preferences';
 
 const Posts = () => {
-    const defaultPosts: Post[] = [];
+    const preferences: SearchPostsPreferences = p.get('searchPostsPreferences') || {
+        orderBy: 'createdAt',
+        order: 'DESC',
+        startDate: '',
+        endDate: '',
+        query: '',
+        limit: 10,
+        page: 1,
+    };
     const [count, setCount] = useState(0);
-    const [posts, setPosts] = useState(defaultPosts);
-    const [orderBy, setOrderBy] = useState('createdAt');
-    const [order, setOrder] = useState('DESC');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [query, setQuery] = useState('');
-    const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(1);
+    const [posts, setPosts] = useState<Post[]>([]);
+    const [orderBy, setOrderBy] = useState(preferences.orderBy || 'createdAt');
+    const [order, setOrder] = useState(preferences.order || 'DESC');
+    const [startDate, setStartDate] = useState(preferences.startDate || '');
+    const [endDate, setEndDate] = useState(preferences.endDate || '');
+    const [query, setQuery] = useState(preferences.query || '');
+    const [limit, setLimit] = useState(preferences.limit || 10);
+    const [page, setPage] = useState(preferences.page || 1);
     const [isAdmin, setIsAdmin] = useState(false);
     const { setPost } = usePostStore();
 
@@ -67,29 +77,47 @@ const Posts = () => {
         filter: 'orderBy' | 'order' | 'startDate' | 'endDate' | 'query' | 'limit' | 'page',
         value: string | number,
     ) => {
+        const searchPreferences: SearchPostsPreferences = {
+            orderBy,
+            order,
+            startDate,
+            endDate,
+            query,
+            limit,
+            page,
+        };
         switch (filter) {
             case 'orderBy':
+                searchPreferences[filter] = value as string;
                 setOrderBy(value as string);
                 break;
             case 'order':
-                setOrder(value as string);
+                searchPreferences[filter] = value as 'ASC' | 'DESC';
+                setOrder(value as 'DESC' | 'ASC');
                 break;
             case 'startDate':
+                searchPreferences[filter] = value as string;
                 setStartDate(value as string);
                 break;
             case 'endDate':
+                searchPreferences[filter] = value as string;
                 setEndDate(value as string);
                 break;
             case 'query':
+                searchPreferences[filter] = value as string;
                 setQuery(value as string);
                 break;
             case 'limit':
+                searchPreferences[filter] = value as number;
                 setLimit(value as number);
                 break;
             case 'page':
+                searchPreferences[filter] = value as number;
                 setPage(value as number);
                 break;
         }
+
+        p.set('searchPostsPreferences', searchPreferences);
 
         const startdate = startDate || '1900-01-01';
         const enddate = endDate || '2100-01-01';
