@@ -52,7 +52,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     const [is404, setIs404] = useState(false);
-    const { isAuthenticated: isAdmin } = useAuthStore();
+    const { isAuthenticated } = useAuthStore();
     const { metadata } = useMetadata();
     const pathname = usePathname();
     const { keywords } = getMetadata(pathname, metadata);
@@ -78,7 +78,7 @@ export default function RootLayout({
             <div
                 className={makeStyles([
                     'row-start-2 col-start-1',
-                    is404 || isAdmin ? 'col-span-3' : 'col-span-2',
+                    is404 || isAuthenticated ? 'col-span-3' : 'col-span-2',
                     'p-4 overflow',
                     'dark',
                 ])}
@@ -87,7 +87,7 @@ export default function RootLayout({
                 <Footer />
             </div>
 
-            {!is404 && !isAdmin && (
+            {!is404 && !isAuthenticated && (
                 <aside className="hidden lg:block row-start-2 col-start-3 bg-secondary-dark p-4">
                     <p>Aquí van los anuncios de GoogleAdsense</p>
                 </aside>
