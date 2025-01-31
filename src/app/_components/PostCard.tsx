@@ -1,12 +1,12 @@
 'use client';
 import { archivePost } from '@/api/posts/archivePost';
 import { deletePost } from '@/api/posts/deletePost';
-import { isAuthenticated } from '@/api/users/isAuthenticated';
+import { useAuthStore } from '@/stores/auth.store';
 import useDialog from '@/stores/dialog.store';
 import usePostStore from '@/stores/post.store';
 import { formatDate } from '@/utils/formatDate';
 import Link from 'next/link';
-import { CSSProperties, useEffect, useState } from 'react';
+import { CSSProperties } from 'react';
 interface Props {
     id: number;
     title: string;
@@ -26,7 +26,7 @@ const PostCard = ({
     onDelete = () => {},
     onArchive = () => {},
 }: Props) => {
-    const [isAdmin, setIsAdmin] = useState(false);
+    const { isAuthenticated: isAdmin } = useAuthStore();
     const { dialog, setDialog } = useDialog();
     const { setPost } = usePostStore();
 
@@ -40,14 +40,6 @@ const PostCard = ({
         minHeight: '7.5em',
         flexDirection: 'column',
     };
-
-    useEffect(() => {
-        isAuthenticated().then((authenticated) => {
-            if (authenticated) {
-                setIsAdmin(true);
-            }
-        });
-    }, []);
 
     function handleDeletePost() {
         setDialog({

@@ -20,6 +20,9 @@ export const getPost = async (id: number): Promise<Post> => {
             userId: 1,
         };
         if (error instanceof HttpException) {
+            if (error.statusCode === 404) {
+                throw error;
+            }
             notify({ message: error.message, type: 'error' });
         } else {
             notify({ message: 'Ocurrió un error inesperado', type: 'error' });

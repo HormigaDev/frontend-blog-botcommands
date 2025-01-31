@@ -3,12 +3,25 @@ import React from 'react';
 import Link from 'next/link';
 import { makeStyles } from '@/utils/makeStyles';
 import Image from 'next/image';
+import { useAuthStore } from '@/stores/auth.store';
+import { logout } from '@/api/users/logout';
+import { useRouter } from 'next/navigation';
 
 interface NavbarProps {
     options: { route: string; name: string }[];
 }
 
 const Navbar = ({ options }: NavbarProps) => {
+    const { isAuthenticated, setIsAuthenticated } = useAuthStore();
+    const router = useRouter();
+
+    function handleLogout() {
+        logout().then(() => {
+            setIsAuthenticated(false);
+            router.push('/');
+        });
+    }
+
     return (
         <nav className="bg-primary text-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,6 +48,14 @@ const Navbar = ({ options }: NavbarProps) => {
                                 </span>
                             </Link>
                         ))}
+                        {isAuthenticated && (
+                            <button
+                                className="hover:text-secondary transition-colors duration-200"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>
+                        )}
                     </div>
 
                     <div className="md:hidden">

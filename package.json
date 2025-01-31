@@ -10,12 +10,15 @@
     },
     "dependencies": {
         "@tailwindcss/typography": "^0.5.16",
+        "highlight.js": "^11.11.1",
         "next": "15.1.5",
         "prismjs": "^1.29.0",
         "react": "^19.0.0",
         "react-datepicker": "^7.6.0",
         "react-dom": "^19.0.0",
         "react-toastify": "^11.0.3",
+        "remark": "^15.0.1",
+        "remark-html": "^16.0.1",
         "zustand": "^5.0.3"
     },
     "devDependencies": {

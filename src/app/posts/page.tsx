@@ -9,9 +9,9 @@ import { getPosts } from '@/api/posts/getPosts';
 import PostCard from '../_components/PostCard';
 import RootLayout from '../layouts/RootLayout';
 import usePostStore from '@/stores/post.store';
-import { isAuthenticated } from '@/api/users/isAuthenticated';
 import { SearchPostsPreferences } from '@/types/SearchPostsPreferences';
 import { preferences as p } from '@/utils/preferences';
+import { useAuthStore } from '@/stores/auth.store';
 
 const Posts = () => {
     const [count, setCount] = useState(0);
@@ -23,7 +23,7 @@ const Posts = () => {
     const [query, setQuery] = useState('');
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const { isAuthenticated: isAdmin } = useAuthStore();
     const { setPost } = usePostStore();
 
     const orderOptions = [
@@ -72,11 +72,6 @@ const Posts = () => {
         setPage(preferences.page);
 
         searchPosts();
-        isAuthenticated().then((authenticated) => {
-            if (authenticated) {
-                setIsAdmin(true);
-            }
-        });
     }, [startDate, endDate, limit, page, orderBy, order, query]);
 
     const handleFilterChange = (
