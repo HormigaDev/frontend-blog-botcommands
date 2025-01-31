@@ -12,6 +12,9 @@ import PostModal from './_components/PostModal';
 import _keywords from './data/keywords.json';
 
 import CookieConset from '@/app/_components/CookieConsent';
+import { useAuthStore } from '@/stores/auth.store';
+import { useEffect } from 'react';
+import { isAuthenticated as isAuth } from '@/api/users/isAuthenticated';
 
 const host = process.env.NEXT_PUBLIC_HOST_URL;
 const geistSans = Geist({
@@ -64,6 +67,15 @@ export default function RootLayout({
     const { metadata } = useMetadata();
     const pathname = usePathname();
     const { title, description, keywords } = getMetadata(pathname, metadata);
+    const { setIsAuthenticated } = useAuthStore();
+
+    useEffect(() => {
+        isAuth().then((authenticated) => {
+            if (authenticated) {
+                setIsAuthenticated(true);
+            }
+        });
+    }, []);
 
     return (
         <html lang="en">

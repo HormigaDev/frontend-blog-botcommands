@@ -36,7 +36,7 @@ const LoginPage = () => {
         }
 
         login({ email, password }, () => {
-            router.push('/admin/dashboard');
+            router.push('/posts');
         })
             .then((statusCode) => {
                 switch (statusCode as number) {

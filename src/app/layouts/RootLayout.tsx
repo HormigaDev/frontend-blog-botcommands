@@ -12,7 +12,7 @@ import navOptions from '@/app/data/navbar-options.json';
 // Components
 import Navbar from '@/app/_components/Navbar';
 import Footer from '@/app/_components/Footer';
-import { isAuthenticated } from '@/api/users/isAuthenticated';
+import { useAuthStore } from '@/stores/auth.store';
 
 const getMetadata = (pathname: string, defaultMetadata: Metadata) => {
     let metadata: { title: string; description: string; keywords: string[] } = {
@@ -52,7 +52,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     const [is404, setIs404] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const { isAuthenticated: isAdmin } = useAuthStore();
     const { metadata } = useMetadata();
     const pathname = usePathname();
     const { keywords } = getMetadata(pathname, metadata);
@@ -60,11 +60,6 @@ export default function RootLayout({
         if (keywords.includes('404')) {
             setIs404(true);
         }
-        isAuthenticated().then((authenticated) => {
-            if (authenticated) {
-                setIsAdmin(true);
-            }
-        });
     }, [setIs404, keywords]);
 
     return (
