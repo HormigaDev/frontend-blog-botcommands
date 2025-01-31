@@ -23,7 +23,7 @@ const Posts = () => {
     const [query, setQuery] = useState('');
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
-    const { isAuthenticated: isAdmin } = useAuthStore();
+    const { isAuthenticated } = useAuthStore();
     const { setPost } = usePostStore();
 
     const orderOptions = [
@@ -202,7 +202,7 @@ const Posts = () => {
                     </div>
                 </div>
 
-                {isAdmin && (
+                {isAuthenticated && (
                     <div className="flex items-center justify-center">
                         <Button
                             onClick={handleNewPost}

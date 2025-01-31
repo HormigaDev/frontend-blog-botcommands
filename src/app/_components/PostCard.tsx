@@ -26,7 +26,7 @@ const PostCard = ({
     onDelete = () => {},
     onArchive = () => {},
 }: Props) => {
-    const { isAuthenticated: isAdmin } = useAuthStore();
+    const { isAuthenticated } = useAuthStore();
     const { dialog, setDialog } = useDialog();
     const { setPost } = usePostStore();
 
@@ -112,7 +112,7 @@ const PostCard = ({
             <small className="text-neutral-dark inline-block absolute bottom-0 right-0 m-6">
                 Publicado en: {formatDate(date)}
             </small>
-            {isAdmin && (
+            {isAuthenticated && (
                 <div className="absolute top-0 right-0 m-1 h-[12px]">
                     <button aria-label="Editar post" onClick={handleEdit}>
                         <i className="fa fa-edit font-bold mx-2" />
