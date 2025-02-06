@@ -15,7 +15,7 @@ export const toastStyles = {
     },
     info: {
         backgroundColor: '#2F3136',
-        color: '#5050FF',
+        color: '#00b0FF',
         fontSize: '16px',
         borderRadius: '4px',
     },

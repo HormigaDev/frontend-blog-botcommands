@@ -7,21 +7,19 @@ import Thumbnail from '../../_components/Thumbnail';
 import { notify } from '@/utils/notify';
 import { login } from '@/api/users/login';
 import { useRouter } from 'next/navigation';
-import { isAuthenticated } from '@/api/users/isAuthenticated';
+import { useAuthStore } from '@/stores/auth.store';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
+    const { isAuthenticated, setIsAuthenticated } = useAuthStore();
 
     useEffect(() => {
-        isAuthenticated().then((authenticated) => {
-            if (authenticated) {
-                router.push('/admin/dashboard');
-                return;
-            }
-        });
-    }, [router]);
+        if (isAuthenticated) {
+            router.push('/');
+        }
+    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -36,6 +34,7 @@ const LoginPage = () => {
         }
 
         login({ email, password }, () => {
+            setIsAuthenticated(true);
             router.push('/posts');
         })
             .then((statusCode) => {

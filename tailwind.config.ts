@@ -19,6 +19,7 @@ export default {
                 neutral: '#DCDDDE',
                 error: '#DC6060',
                 'primary-dark': '#4757D6',
+                primaryt: '#5865F235',
                 'secondary-dark': '#1F2125',
                 'success-dark': '#44D171',
                 'warning-dark': '#D39A00',
