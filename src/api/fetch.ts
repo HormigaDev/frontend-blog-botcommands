@@ -1,7 +1,7 @@
 import { HttpException } from '@/types/HttpException';
 import { notify } from '@/utils/notify';
 
-const host = 'http://localhost:3000';
+const host = process.env.NEXT_PUBLIC_API_URL!;
 
 export class Http {
     private host: string;
