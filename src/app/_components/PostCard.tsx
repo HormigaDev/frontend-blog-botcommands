@@ -98,18 +98,18 @@ const PostCard = ({
     }
 
     return (
-        <div className="bg-secondary-dark p-6 rounded-lg min-h-[244px] max-h-[244px] relative">
+        <div className="bg-secondary-dark p-6 rounded-lg min-h-[244px] max-h-[244px] relative pb-8">
             <h3 className="text-xl text-white mb-2">{title}</h3>
             <p style={paragraphStyles} className="text-neutral">
                 {content || 'Sin descripción'}
             </p>
             <Link
                 href={`/posts/${id}`}
-                className="text-primary inline-block hover:text-primary-dark absolute bottom-0 left-0 m-6"
+                className="text-primary inline-block hover:text-primary-dark absolute bottom-0 left-0 m-2"
             >
                 Ver publicación
             </Link>
-            <small className="text-neutral-dark inline-block absolute bottom-0 right-0 m-6">
+            <small className="text-neutral-dark inline-block absolute bottom-0 right-0 m-2">
                 Publicado en: {formatDate(date)}
             </small>
             {isAuthenticated && (
