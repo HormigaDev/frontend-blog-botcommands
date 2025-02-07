@@ -88,9 +88,7 @@ export default function RootLayout({
             </div>
 
             {!is404 && !isAuthenticated && (
-                <aside className="hidden lg:block row-start-2 col-start-3 bg-secondary-dark p-4">
-                    <p>Aquí van los anuncios de GoogleAdsense</p>
-                </aside>
+                <aside className="hidden lg:block row-start-2 col-start-3 bg-secondary-dark p-4"></aside>
             )}
         </div>
     );
