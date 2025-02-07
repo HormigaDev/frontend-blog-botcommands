@@ -22,11 +22,6 @@ export const getFeaturedPosts = async (): Promise<PostsResult> => {
 
     try {
         const res: PostsResult = await http.get(url);
-        res.posts = res.posts.map((p) => {
-            p.content = p.content.replaceAll('\\n', '\n');
-            return p;
-        });
-
         return res;
     } catch (error) {
         http.handleError(error);

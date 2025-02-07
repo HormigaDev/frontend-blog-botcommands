@@ -117,14 +117,6 @@ const PostCard = ({
                     <button aria-label="Editar post" onClick={handleEdit}>
                         <i className="fa fa-edit font-bold mx-2" />
                     </button>
-                    <a
-                        href={`${process.env.NEXT_PUBLIC_API_URL}/posts/download/${id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Descargar post"
-                    >
-                        <i className="fa fa-download font-bold mx-2"></i>
-                    </a>
                     <button aria-label="Archivar post" onClick={handleArchivePost}>
                         <i className="fa fa-archive font-bold mx-2"></i>
                     </button>

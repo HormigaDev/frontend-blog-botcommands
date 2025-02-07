@@ -1,7 +1,7 @@
 import { makeStyles } from '@/utils/makeStyles';
 
 type ButtonProps = {
-    label: string;
+    label?: string;
     onClick: (e?: any) => void;
     color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'neutral';
     size?: 'small' | 'medium' | 'large';
@@ -9,10 +9,11 @@ type ButtonProps = {
     disabled?: boolean;
     className?: string;
     icon?: string;
+    onRightClick?: (e?: any) => void;
 };
 
 const Button = ({
-    label,
+    label = '',
     onClick,
     color = 'primary',
     size = 'medium',
@@ -20,6 +21,7 @@ const Button = ({
     disabled = false,
     className = '',
     icon = '',
+    onRightClick = () => {},
 }: ButtonProps) => {
     const baseStyles = 'text-white font-semibold transition-colors duration-200 focus:outline-none';
     const sizeStyles = {
@@ -50,8 +52,9 @@ const Button = ({
                 disabledStyles,
                 className,
             ])}
+            onContextMenu={onRightClick}
         >
-            {icon && <i className={`${icon} mr-2`}></i>}
+            {icon && <i className={`${icon} ${label && 'mr-2'}`}></i>}
             {label}
         </button>
     );

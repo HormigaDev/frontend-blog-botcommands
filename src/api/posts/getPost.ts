@@ -11,7 +11,7 @@ export const getPost = async (id: number): Promise<Post> => {
         const post: Post = {
             id,
             title: 'Error',
-            content: 'Ocurrió un error al cargar el post',
+            contents: [],
             shortDescription: 'Ocurrió un error al cargar el post',
             createdAt: new Date(),
             lastUpdate: new Date(),
