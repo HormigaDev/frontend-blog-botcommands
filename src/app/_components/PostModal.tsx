@@ -7,10 +7,11 @@ import usePostStore from '@/stores/post.store';
 import { createPost } from '@/api/posts/createPost';
 import { notify } from '@/utils/notify';
 
-const PostModal: React.FC = () => {
+const PostModal = () => {
     const { post, setPost } = usePostStore();
     const [title, setTitle] = useState(post.title);
     const [shortDescription, setShortDescription] = useState(post.shortDescription);
+    const [identifier, setIdentifier] = useState('');
     const [keywords, setKeywords] = useState<string>(post.keywords.join(',') || '');
     const [file, setFile] = useState<File | null>(null);
     const [isClosing, setIsClosing] = useState(false);
@@ -39,16 +40,26 @@ const PostModal: React.FC = () => {
 
         const form = new FormData();
         form.append('files', file as File);
-        form.append('title', title);
         if (title.length < 3 || title.length > 255) {
             notify({ message: 'El título del Post debe tener entre 2 y 255 caracteres' });
             return;
         }
-        form.append('shortDescription', shortDescription);
+        form.append('title', title);
+
         if (shortDescription.length < 50 || shortDescription.length > 300) {
             notify({ message: 'El resumen del post debe tener entre 50 y 300 caracteres' });
             return;
         }
+        form.append('shortDescription', shortDescription);
+
+        if (!identifier || identifier.length < 2 || identifier.length > 100) {
+            notify({
+                message: 'El identificador de la etiqueta debe tener entre 2 y 100 caracteres',
+            });
+            return;
+        }
+        form.append('identifier', identifier);
+
         let keyWords = keywords;
         if (!keyWords.split(',').length) {
             keyWords = 'bot,commands,discord';
@@ -110,6 +121,16 @@ const PostModal: React.FC = () => {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
+                    {!post.editing && (
+                        <Input
+                            type="text"
+                            id="identifier"
+                            placeholder="Ingrese el identificador de la etiqueta"
+                            label="Identificador"
+                            value={identifier}
+                            onChange={(e) => setIdentifier(e.target.value)}
+                        />
+                    )}
                     <Input
                         type="textarea"
                         id="shortDescription"

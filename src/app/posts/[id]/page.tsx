@@ -7,13 +7,16 @@ import React, { useState, useEffect } from 'react';
 import RootLayout from '@/app/layouts/RootLayout';
 import { HttpException } from '@/types/HttpException';
 import Markdown from '@/app/_components/Markdown';
+import Tabs from '@/app/_components/Tabs';
+import { useLoadingStore } from '@/stores/loading.store';
+import { Tab } from '@/types/Tab';
 
-const Post = () => {
-    const [postContent, setPostContent] = useState('');
+const PagePost = () => {
     const { setMetadata } = useMetadata();
-
+    const [tabs, setTabs] = useState<Tab[]>([]);
     const { id } = useParams();
     const router = useRouter();
+    const { setLoading } = useLoadingStore();
 
     useEffect(() => {
         if (!id || isNaN(+id)) {
@@ -28,7 +31,16 @@ const Post = () => {
                     description: post.shortDescription,
                     keywords: post.keywords,
                 });
-                setPostContent(post.content);
+                const _tabs: Tab[] = [];
+                post.contents.forEach((content) => {
+                    _tabs.push({
+                        id: content.id,
+                        label: content.identifier,
+                        component: <Markdown content={content.content} />,
+                    });
+                });
+                setTabs(_tabs);
+                setLoading(false);
             })
             .catch((error) => {
                 if (error instanceof HttpException) {
@@ -39,13 +51,13 @@ const Post = () => {
             });
 
         registerPostView(+id);
-    }, [id, setMetadata, router, postContent]);
+    }, [id, setMetadata, router, tabs]);
 
     return (
         <RootLayout>
-            <Markdown content={postContent} />
+            <Tabs tabs={tabs} postId={+id!} />
         </RootLayout>
     );
 };
 
-export default Post;
+export default PagePost;

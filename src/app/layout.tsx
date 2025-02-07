@@ -15,6 +15,9 @@ import CookieConset from '@/app/_components/CookieConsent';
 import { useAuthStore } from '@/stores/auth.store';
 import { useEffect } from 'react';
 import { isAuthenticated as isAuth } from '@/api/users/isAuthenticated';
+import Spinner from './_components/Spinner';
+import { useLoadingStore } from '@/stores/loading.store';
+import PostContentModal from './_components/PostContentModal';
 
 const host = process.env.NEXT_PUBLIC_HOST_URL;
 const geistSans = Geist({
@@ -68,6 +71,7 @@ export default function RootLayout({
     const pathname = usePathname();
     const { title, description, keywords } = getMetadata(pathname, metadata);
     const { setIsAuthenticated } = useAuthStore();
+    const { loading } = useLoadingStore();
 
     useEffect(() => {
         isAuth().then((authenticated) => {
@@ -112,9 +116,11 @@ export default function RootLayout({
             >
                 {children}
                 <PostModal />
+                <PostContentModal />
                 <Dialog />
                 <CookieConset />
                 <ToastContainer position="top-right" autoClose={1500} hideProgressBar={true} />
+                {loading && <Spinner />}
             </body>
         </html>
     );

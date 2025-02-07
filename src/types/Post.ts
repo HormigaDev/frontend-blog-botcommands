@@ -1,8 +1,14 @@
+export interface PostContent {
+    id: number;
+    identifier: string;
+    content: string;
+}
+
 export interface Post {
     id: number;
     title: string;
     shortDescription: string;
-    content: string;
+    contents: PostContent[];
     userId: number;
     status: number;
     keywords: string[];
