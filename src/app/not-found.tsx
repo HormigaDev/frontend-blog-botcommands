@@ -8,7 +8,7 @@ const NotFoundPage = () => {
     const { setMetadata } = useMetadata();
     useEffect(() => {
         setMetadata({
-            title: '404',
+            title: '404 NOT FOUND',
             description: '¡Ups! La página que buscas no se encuentra.',
             keywords: ['not found', '404'],
         });
