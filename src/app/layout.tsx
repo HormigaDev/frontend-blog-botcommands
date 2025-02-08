@@ -109,6 +109,11 @@ export default function RootLayout({
                     crossOrigin="anonymous"
                     referrerPolicy="no-referrer"
                 />
+                <script
+                    async
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5478015309122088"
+                    crossOrigin="anonymous"
+                ></script>
             </head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased max-h-screen bg-dark`}
