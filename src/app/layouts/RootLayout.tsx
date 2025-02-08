@@ -95,7 +95,7 @@ export default function RootLayout({
                         crossOrigin="anonymous"
                     ></script>
                     <ins
-                        className="adsbygoogle"
+                        className="adsbygoogle h-full"
                         style={{ display: 'block' }}
                         data-ad-client="ca-pub-5478015309122088"
                         data-ad-slot="5548058345"
