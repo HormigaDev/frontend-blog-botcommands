@@ -88,7 +88,22 @@ export default function RootLayout({
             </div>
 
             {!is404 && !isAuthenticated && (
-                <aside className="hidden lg:block row-start-2 col-start-3 bg-secondary-dark p-4"></aside>
+                <aside className="hidden lg:block row-start-2 col-start-3 bg-secondary-dark p-4">
+                    <script
+                        async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5478015309122088"
+                        crossOrigin="anonymous"
+                    ></script>
+                    <ins
+                        className="adsbygoogle"
+                        style={{ display: 'block' }}
+                        data-ad-client="ca-pub-5478015309122088"
+                        data-ad-slot="5548058345"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"
+                    ></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                </aside>
             )}
         </div>
     );
