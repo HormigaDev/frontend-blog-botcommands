@@ -24,6 +24,26 @@
         "description": "Conoce más sobre HormigaDev, un blog dedicado a ejemplos, tutoriales y recursos para el desarrollo de bots en Discord.",
         "keywords": ["sobre HormigaDev", "desarrollo de bots", "comunidad de programadores"]
     },
+    "terms_of_services": {
+        "title": "Términos de servicio",
+        "description": "Lee nuestros términos de servicio para comprender las reglas y responsabilidades al utilizar HormigaDev y acceder a nuestros recursos.",
+        "keywords": [
+            "términos de servicio",
+            "uso del sitio",
+            "reglas de HormigaDev",
+            "condiciones de uso"
+        ]
+    },
+    "privacy_policy": {
+        "title": "Política de privacidad",
+        "description": "Conoce cómo manejamos tu información en HormigaDev, incluyendo la recopilación, uso y protección de datos.",
+        "keywords": [
+            "política de privacidad",
+            "protección de datos",
+            "información del usuario",
+            "privacidad en HormigaDev"
+        ]
+    },
     "default": {
         "title": "Blog de programación",
         "description": "Bienvenido a HormigaDev, tu blog de referencia para ejemplos y tutoriales de comandos de bots en Discord.",

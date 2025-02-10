@@ -1,61 +1,82 @@
-'use client';
+import { notFound } from 'next/navigation';
+import RootLayout from '@/app/layouts/RootLayout';
 import { getPost } from '@/api/posts/getPost';
 import { registerPostView } from '@/api/posts/registerPostView';
-import useMetadata from '@/stores/metadata.store';
-import { notFound, useParams } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
-import RootLayout from '@/app/layouts/RootLayout';
-import { HttpException } from '@/types/HttpException';
-import Markdown from '@/app/_components/Markdown';
-import Tabs from '@/app/_components/Tabs';
-import { useLoadingStore } from '@/stores/loading.store';
+import ClientPost from './ClientPost';
 import { Tab } from '@/types/Tab';
+import Markdown from '@/app/_components/Markdown';
 
-const PagePost = () => {
-    const { setMetadata } = useMetadata();
-    const [tabs, setTabs] = useState<Tab[]>([]);
-    const { id } = useParams();
-    const { setLoading } = useLoadingStore();
+// Usamos `generateMetadata` para generar los metadatos dinámicamente
+export async function generateMetadata({ params }: { params: Promise<any> }) {
+    const postId = Number((await params).id);
 
-    useEffect(() => {
-        if (!id || isNaN(+id)) {
-            notFound();
-        }
+    if (isNaN(postId)) {
+        return {}; // Si no es un ID válido, no generamos metadata
+    }
 
-        getPost(+id)
-            .then(async (post) => {
-                setMetadata({
-                    title: post.title,
-                    description: post.shortDescription,
-                    keywords: post.keywords,
-                });
-                const _tabs: Tab[] = [];
-                post.contents.forEach((content) => {
-                    _tabs.push({
-                        id: content.id,
-                        label: content.identifier,
-                        component: <Markdown content={content.content} />,
-                    });
-                });
-                setTabs(_tabs);
-                setLoading(false);
-            })
-            .catch((error) => {
-                if (error instanceof HttpException) {
-                    if (error.statusCode === 404) {
-                        notFound();
-                    }
-                }
-            });
+    try {
+        const post = await getPost(postId);
+        const host = process.env.HOST || 'http://localhost:3000'; // URL base desde el entorno
+        const pathname = `/post/${post.id}`; // Path dinámico para cada post
 
-        registerPostView(+id);
-    }, [id, setMetadata, tabs]);
+        return {
+            title: 'HormigaDev - ' + post.title,
+            description: post.shortDescription,
+            keywords: post.keywords.join(', '),
+            openGraph: {
+                title: 'HormigaDev - ' + post.title,
+                description: post.shortDescription,
+                image: `${host}/logo.png`,
+                url: `${host}${pathname}`,
+                type: 'website',
+            },
+            twitter: {
+                card: 'summary_large_image',
+                title: 'HormigaDev - ' + post.title,
+                description: post.shortDescription,
+                image: `${host}/logo.png`,
+            },
+            author: 'Isai Medina',
+            canonical: `${host}${pathname}`,
+        };
+    } catch (error) {
+        console.log('ERROR DE METADATA:', error);
+        return {};
+    }
+}
 
-    return (
-        <RootLayout>
-            <Tabs tabs={tabs} postId={+id!} />
-        </RootLayout>
-    );
-};
+export default async function PagePost({ params }: { params: Promise<any> }) {
+    const postId = Number((await params).id);
 
-export default PagePost;
+    if (isNaN(postId)) {
+        notFound();
+    }
+
+    try {
+        const post = await getPost(postId);
+        await registerPostView(postId);
+
+        const tabs: Tab[] = post.contents.map((content) => ({
+            id: content.id,
+            label: content.identifier,
+            component: <Markdown content={content.content} />,
+        }));
+
+        return (
+            <RootLayout>
+                <ClientPost
+                    postId={postId}
+                    tabs={tabs}
+                    metadata={{
+                        title: post.title,
+                        description: post.shortDescription,
+                        keywords: post.keywords,
+                    }}
+                />
+            </RootLayout>
+        );
+    } catch (error) {
+        console.log(error);
+        notFound();
+    }
+}
