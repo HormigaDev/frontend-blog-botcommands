@@ -38,24 +38,8 @@ const getMetadata = (pathname: string, defaultMetadata: Metadata) => {
     };
 
     switch (pathname) {
-        case '/':
-            metadata = _metadata.inicio;
-            break;
-
         case '/posts':
             metadata = _metadata.posts;
-            break;
-
-        case '/about':
-            metadata = _metadata.about;
-            break;
-
-        case '/term-of-services':
-            metadata = _metadata.terms_of_services;
-            break;
-
-        case '/privacy-policy':
-            metadata = _metadata.privacy_policy;
             break;
 
         default:
@@ -93,44 +77,43 @@ export default function RootLayout({
         });
     }, []);
 
-    useEffect(() => {
-        // Si la metadata ya está en el head, no la sobrescribimos
-        const titleTag = document.querySelector('title');
-        const metaDescription = document.querySelector('meta[name="description"]');
-        const metaKeywords = document.querySelector('meta[name="keywords"]');
-
-        if (!titleTag || !metaDescription || !metaKeywords) {
-            // Si no hay metadatos previos, los agregamos
-            document.title = 'HormigaDev - ' + title;
-            const metaDesc = document.createElement('meta');
-            metaDesc.name = 'description';
-            metaDesc.content = description;
-            document.head.appendChild(metaDesc);
-
-            const metaKey = document.createElement('meta');
-            metaKey.name = 'keywords';
-            metaKey.content = [...keywords, ..._keywords].join(', ');
-            document.head.appendChild(metaKey);
-        }
-    }, [title, description, keywords]);
-
     return (
         <html lang="en">
             <head>
-                <meta name="robots" content="index, follow" />
-                <meta property="og:title" content={'HormigaDev - ' + title} />
-                <meta property="og:description" content={description} />
-                <meta property="og:image" content={`${host}/logo.png`} />
-                <meta property="og:url" content={`${host}${pathname}`} />
-                <meta property="og:type" content="website" />
+                {pathname === '/posts' && (
+                    <>
+                        <title>{'HormigaDev - ' + title}</title>
+                        <meta name="description" content={description} />
+                        <meta name="robots" content="index, follow" />
+                        <meta name="keywords" content={[...keywords, ..._keywords].join(', ')} />
 
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={'HormigaDev - ' + title} />
-                <meta name="twitter:description" content={description} />
-                <meta name="twitter:image" content={`${host}/logo.png`} />
+                        <meta property="og:title" content={'HormigaDev - ' + title} />
+                        <meta property="og:description" content={description} />
+                        <meta property="og:image" content={`${host}/logo.png`} />
+                        <meta property="og:url" content={`${host}${pathname}`} />
+                        <meta property="og:type" content="website" />
 
-                <meta name="author" content="Isai Medina" />
-                <link rel="canonical" href={`${host}${pathname}`} />
+                        <meta name="twitter:card" content="summary_large_image" />
+                        <meta name="twitter:title" content={'HormigaDev - ' + title} />
+                        <meta name="twitter:description" content={description} />
+                        <meta name="twitter:image" content={`${host}/logo.png`} />
+
+                        <meta name="author" content="Isai Medina" />
+                        <link rel="canonical" href={`${host}${pathname}`} />
+                    </>
+                )}
+                <link
+                    rel="stylesheet"
+                    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+                    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+                    crossOrigin="anonymous"
+                    referrerPolicy="no-referrer"
+                />
+                <script
+                    async
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5478015309122088"
+                    crossOrigin="anonymous"
+                ></script>
             </head>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased max-h-screen bg-dark`}

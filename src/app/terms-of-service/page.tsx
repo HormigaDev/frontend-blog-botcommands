@@ -1,5 +1,29 @@
 import Link from 'next/link';
 import RootLayout from '@/app/layouts/RootLayout';
+import { Metadata } from 'next';
+import _metadata from '@/app/data/metadata.json';
+
+const host = process.env.HOST;
+
+export const metadata: Metadata = {
+    title: 'HormigaDev - ' + _metadata.terms_of_services.title,
+    description: _metadata.terms_of_services.description,
+    keywords: _metadata.terms_of_services.keywords.join(', '),
+    openGraph: {
+        title: 'HormigaDev - ' + _metadata.terms_of_services.title,
+        description: _metadata.terms_of_services.description,
+        images: `${host}/logo.png`,
+        url: `${host}`,
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'HormigaDev - ' + _metadata.terms_of_services.title,
+        description: _metadata.terms_of_services.description,
+        images: `${host}/logo.png`,
+    },
+    authors: [{ name: 'Isaí Medina', url: 'portfolio.hormiga.dev' }],
+};
 
 const TermsOfService = () => {
     return (

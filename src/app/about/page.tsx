@@ -1,12 +1,30 @@
-'use client';
-import { loadChrono } from '@/api/dev/loadChrono';
-import { useEffect } from 'react';
 import RootLayout from '../layouts/RootLayout';
+import { Metadata } from 'next';
+import _metadata from '@/app/data/metadata.json';
+
+const host = process.env.HOST;
+
+export const metadata: Metadata = {
+    title: 'HormigaDev - ' + _metadata.about.title,
+    description: _metadata.about.description,
+    keywords: _metadata.about.keywords.join(', '),
+    openGraph: {
+        title: 'HormigaDev - ' + _metadata.about.title,
+        description: _metadata.about.description,
+        images: `${host}/logo.png`,
+        url: `${host}`,
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'HormigaDev - ' + _metadata.about.title,
+        description: _metadata.about.description,
+        images: `${host}/logo.png`,
+    },
+    authors: [{ name: 'Isaí Medina', url: 'portfolio.hormiga.dev' }],
+};
 
 const About = () => {
-    useEffect(() => {
-        loadChrono('Acerca de');
-    }, []);
     return (
         <RootLayout>
             <div className="px-8 md:px-48 sm:px-12 lg:px-64 py-8">

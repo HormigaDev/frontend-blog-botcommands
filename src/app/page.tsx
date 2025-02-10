@@ -1,28 +1,44 @@
-'use client';
-import React, { useEffect, useState } from 'react';
+import { Metadata } from 'next';
 import { Post } from '@/types/Post';
+import _metadata from '@/app/data/metadata.json';
 import { makeStyles } from '@/utils/makeStyles';
 import PostCard from './_components/PostCard';
 import { getFeaturedPosts } from '@/api/posts/getFeaturedPosts';
 import { getLatestPosts } from '@/api/posts/getLatestPosts';
 import RootLayout from '@/app/layouts/RootLayout';
 
-const Home = () => {
-    const [latestPosts, setLatestPosts] = useState<Post[]>([]);
-    const [featuredPosts, setFeaturedPosts] = useState<Post[]>([]);
+const host = process.env.HOST; // Obtener el host desde el entorno
 
-    useEffect(() => {
-        getFeaturedPosts().then(({ posts }) => {
-            setFeaturedPosts(posts);
-        });
-        getLatestPosts().then(({ posts }) => {
-            setLatestPosts(posts);
-        });
-    }, []);
+// Exportar metadata con los valores de _metadata.inicio
+export const metadata: Metadata = {
+    title: 'HormigaDev - ' + _metadata.inicio.title,
+    description: _metadata.inicio.description,
+    keywords: _metadata.inicio.keywords.join(', '),
+    openGraph: {
+        title: 'HormigaDev - ' + _metadata.inicio.title,
+        description: _metadata.inicio.description,
+        images: `${host}/logo.png`,
+        url: `${host}`,
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'HormigaDev - ' + _metadata.inicio.title,
+        description: _metadata.inicio.description,
+        images: `${host}/logo.png`,
+    },
+    authors: [{ name: 'Isaí Medina', url: 'portfolio.hormiga.dev' }],
+};
+
+// Componente Home como Server Component
+const Home = async () => {
+    const { posts: featuredPosts } = await getFeaturedPosts();
+    const { posts: latestPosts } = await getLatestPosts();
 
     return (
         <RootLayout>
             <div className="space-y-8">
+                {/* Sección de bienvenida */}
                 <section className="bg-primary text-white p-8 rounded-lg">
                     <h1 className="text-3xl font-semibold mb-4">Bienvenido a HormigaDev</h1>
                     <p className="text-neutral mb-6">
@@ -46,10 +62,11 @@ const Home = () => {
                     </a>
                 </section>
 
+                {/* Sección de posts destacados */}
                 <section>
                     <h2 className="text-2xl font-semibold text-primary mb-4">Destacados</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {featuredPosts.map((post, key) => (
+                        {featuredPosts.map((post: Post, key) => (
                             <PostCard
                                 id={post.id}
                                 key={key}
@@ -62,10 +79,11 @@ const Home = () => {
                     </div>
                 </section>
 
+                {/* Sección de últimos posts */}
                 <section>
                     <h2 className="text-2xl font-semibold text-primary mb-4">Últimos Posts</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {latestPosts.map((post, key) => (
+                        {latestPosts.map((post: Post, key) => (
                             <PostCard
                                 id={post.id}
                                 key={key}
