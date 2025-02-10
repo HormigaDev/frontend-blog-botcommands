@@ -1,6 +1,30 @@
 import Link from 'next/link';
 import React from 'react';
 import RootLayout from '@/app/layouts/RootLayout';
+import { Metadata } from 'next';
+import _metadata from '@/app/data/metadata.json';
+
+const host = process.env.HOST;
+
+export const metadata: Metadata = {
+    title: 'HormigaDev - ' + _metadata.privacy_policy.title,
+    description: _metadata.privacy_policy.description,
+    keywords: _metadata.privacy_policy.keywords.join(', '),
+    openGraph: {
+        title: 'HormigaDev - ' + _metadata.privacy_policy.title,
+        description: _metadata.privacy_policy.description,
+        images: `${host}/logo.png`,
+        url: `${host}`,
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'HormigaDev - ' + _metadata.privacy_policy.title,
+        description: _metadata.privacy_policy.description,
+        images: `${host}/logo.png`,
+    },
+    authors: [{ name: 'Isaí Medina', url: 'portfolio.hormiga.dev' }],
+};
 
 const PrivacyPolicy = () => {
     return (
