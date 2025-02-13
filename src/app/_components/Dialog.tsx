@@ -51,6 +51,7 @@ const Dialog: React.FC = () => {
                         }}
                         label={cancelLabel}
                         color="secondary"
+                        ariaLabel="Cancelar acción"
                     />
                     <Button
                         onClick={() => {
@@ -59,6 +60,7 @@ const Dialog: React.FC = () => {
                         }}
                         label={okLabel}
                         color={dialog.actions.ok.color || 'primary'}
+                        ariaLabel="Aceptar opción"
                     />
                 </div>
             </div>

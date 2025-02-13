@@ -254,6 +254,7 @@ const Posts = () => {
                                 label="Anterior"
                                 onClick={() => handleFilterChange('page', Math.max(page - 1, 1))}
                                 disabled={page <= 1}
+                                ariaLabel="Ir a la página anterior de posts"
                             />
                             <span className="text-neutral">
                                 Página {page} de {totalPages}
@@ -264,6 +265,7 @@ const Posts = () => {
                                     handleFilterChange('page', Math.min(page + 1, totalPages))
                                 }
                                 disabled={page >= totalPages}
+                                ariaLabel="Ir a la página siguiente de posts"
                             />
                         </div>
                     </div>

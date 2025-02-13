@@ -63,6 +63,7 @@ const Tabs = ({ tabs, postId }: TabsProps) => {
                             e.preventDefault();
                             handleEditPostContent(tab.id, tab.label);
                         }}
+                        ariaLabel={`Ver el código en ${tab.label}`}
                     />
                 ))}
             </div>

@@ -10,6 +10,7 @@ type ButtonProps = {
     className?: string;
     icon?: string;
     onRightClick?: (e?: any) => void;
+    ariaLabel?: string;
 };
 
 const Button = ({
@@ -22,6 +23,7 @@ const Button = ({
     className = '',
     icon = '',
     onRightClick = () => {},
+    ariaLabel = '',
 }: ButtonProps) => {
     const baseStyles = 'text-white font-semibold transition-colors duration-200 focus:outline-none';
     const sizeStyles = {
@@ -53,6 +55,7 @@ const Button = ({
                 className,
             ])}
             onContextMenu={onRightClick}
+            aria-label={ariaLabel}
         >
             {icon && <i className={`${icon} ${label && 'mr-2'}`}></i>}
             {label}

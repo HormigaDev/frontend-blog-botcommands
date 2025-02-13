@@ -5,6 +5,7 @@ import { registerPostView } from '@/api/posts/registerPostView';
 import ClientPost from './ClientPost';
 import { Tab } from '@/types/Tab';
 import Markdown from '@/app/_components/Markdown';
+import { Metadata } from 'next';
 
 // Usamos `generateMetadata` para generar los metadatos dinámicamente
 export async function generateMetadata({ params }: { params: Promise<any> }) {
@@ -19,14 +20,14 @@ export async function generateMetadata({ params }: { params: Promise<any> }) {
         const host = process.env.HOST || 'http://localhost:3000'; // URL base desde el entorno
         const pathname = `/post/${post.id}`; // Path dinámico para cada post
 
-        return {
+        const metadata: Metadata = {
             title: 'HormigaDev - ' + post.title,
             description: post.shortDescription,
             keywords: post.keywords.join(', '),
             openGraph: {
                 title: 'HormigaDev - ' + post.title,
                 description: post.shortDescription,
-                image: `${host}/logo.png`,
+                images: `${host}/logo.png`,
                 url: `${host}${pathname}`,
                 type: 'website',
             },
@@ -34,11 +35,15 @@ export async function generateMetadata({ params }: { params: Promise<any> }) {
                 card: 'summary_large_image',
                 title: 'HormigaDev - ' + post.title,
                 description: post.shortDescription,
-                image: `${host}/logo.png`,
+                images: `${host}/logo.png`,
             },
-            author: 'Isai Medina',
-            canonical: `${host}${pathname}`,
+            authors: [{ name: 'Isai Medina', url: 'https://portfolio.hormiga.dev' }],
+            alternates: {
+                canonical: `${host}${pathname}`,
+            },
         };
+
+        return metadata;
     } catch (error) {
         console.log('ERROR DE METADATA:', error);
         return {};

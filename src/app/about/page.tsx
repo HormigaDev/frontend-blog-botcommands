@@ -22,6 +22,9 @@ export const metadata: Metadata = {
         images: `${host}/logo.png`,
     },
     authors: [{ name: 'Isaí Medina', url: 'portfolio.hormiga.dev' }],
+    alternates: {
+        canonical: `${host}/about`,
+    },
 };
 
 const About = () => {
